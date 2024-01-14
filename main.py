@@ -49,7 +49,7 @@ def send_message_to_all(message):
     # Отправляем сообщение другим пользователям
     for user_id in get_all_users():
         try:
-            bot.forward_message(user_id, message_to_send)
+            bot.forward_message(user_id, admin, message.message_id)
         except Exception as e:
             print(f"Failed to send message to user {user_id}: {str(e)}")
 
