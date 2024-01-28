@@ -10,6 +10,9 @@ cursor.execute('''
     )
 ''')
 conn.commit()
+
+
+
 # Функция для увеличения счетчика взаимодействий пользователя
 def increment_user_count(user_id):
     conn = sqlite3.connect('user_counts.db')
