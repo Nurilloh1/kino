@@ -1,5 +1,6 @@
 import logging
 import telebot
+import sqlite3
 from telebot import types
 from database import increment_user_count, get_user_count, get_all_users
 # Замените 'YOUR_BOT_TOKEN' на ваш токен бота
@@ -51,8 +52,21 @@ def send_message_to_all(message):
         try:
             bot.forward_message(user_id, admin, message.message_id)
         except Exception as e:
-            print(f"Failed to send message to user {user_id}: {str(e)}")
+            # Если не удалось отправить сообщение, удаляем пользователя
+            delete_user(user_id)
+    
+    # Отправляем администратору количество пользователей
+    bot.send_message(admin, f"Habar {get_user_count()} ta userga yuborildi.")
 
+# Функция для удаления пользователя из базы данных
+def delete_user(user_id):
+    conn = sqlite3.connect('user_counts.db')
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM user_counts WHERE user_id=?', (user_id,))
+
+    conn.commit()
+    conn.close()
 
 @bot.message_handler(func=lambda message: message.text.isdigit())
 def handle_number_message(message):
@@ -72,6 +86,13 @@ def handle_number_message(message):
             bot.send_message(message.chat.id, channel_message.text)                
     except telebot.apihelper.ApiException as e:
         bot.reply_to(message, f"{message_id}-ID bilan hech qanday film topilmadi!")
+
+
+
+def main():
+    bot.polling(none_stop=True)
+
+
 
 def main():
     bot.polling(none_stop=True)
