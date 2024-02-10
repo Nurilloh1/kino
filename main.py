@@ -4,12 +4,12 @@ import sqlite3
 from telebot import types
 from database import increment_user_count, get_user_count, get_all_users
 # Замените 'YOUR_BOT_TOKEN' на ваш токен бота
-TOKEN = '6971328805:AAGku1ZPWp5djRgwfggjRIWIh0tA2ti8iPM'
+TOKEN = '6756741224:AAGReMl6pGHao-M-dU9rcenDwnTzhYmBOyo'
 logging.basicConfig(level=logging.INFO)
 
 bot = telebot.TeleBot(TOKEN)
 
-admin = 717474239
+admin = 5934169150
 channel_id = '-1002046764189'
 
 @bot.message_handler(commands=['start'])
